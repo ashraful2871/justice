@@ -1,7 +1,10 @@
 import React from "react";
 import Image from "next/image";
 import { Playfair_Display, Inter } from "next/font/google";
-
+import companyImage1 from "@/assets/companyHistory1.png";
+import companyImage2 from "@/assets/companyHistory2.png";
+import upArrow from "@/assets/arrow-up.png";
+import downArrow from "@/assets/arrow-dwon.png";
 // Font Configuration
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -12,33 +15,35 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const CompanyHistory = () => {
   return (
     <section
-      className={`${playfair.variable} ${inter.variable} w-full flex flex-col lg:flex-row font-sans`}
+      className={`${playfair.variable} ${inter.variable} px-20 flex flex-col lg:flex-row font-sans gap-36`}
     >
       {/* --- LEFT COLUMN: Images --- */}
-      <div className="w-full lg:w-[45%] flex flex-col">
+      <div className="w-full lg:w-[45%] flex flex-col gap-10">
         {/* Top Image: Scales & Desk */}
-        <div className="relative w-full h-[350px] lg:h-[50%]">
+
+        <div className="relative w-full h-[1120px] lg:h-[50%]">
           <Image
-            src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=2070&auto=format&fit=crop"
+            src={companyImage1}
             alt="Lawyer desk with scales"
             className="w-full h-full object-cover"
             fill
           />
         </div>
         {/* Bottom Image: Walking Lawyer */}
-        <div className="relative w-full h-[350px] lg:h-[50%]">
-          <img
-            src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2071&auto=format&fit=crop"
+        <div className="relative w-full h-[1120px] lg:h-[50%]">
+          <Image
+            src={companyImage2}
             alt="Lawyer walking outside"
             className="w-full h-full object-cover object-top"
+            fill
           />
         </div>
       </div>
 
       {/* --- RIGHT COLUMN: Content & Timeline --- */}
-      <div className="w-full lg:w-[55%] bg-[#E5E6E8] flex">
+      <div className="w-full lg:w-[55%] ">
         {/* Content Area */}
-        <div className="flex-1 px-8 py-16 md:p-16 lg:p-20">
+        <div className="  ">
           {/* Main Headline */}
           <h2 className="font-serif text-3xl md:text-4xl text-[#1a1a1a] leading-snug mb-16 max-w-lg">
             Serving clients in every area of law since 1971 with experience and
@@ -105,44 +110,32 @@ const CompanyHistory = () => {
         </div>
 
         {/* --- NAVIGATION SIDEBAR (Right Edge) --- */}
-        <div className="hidden md:flex w-24 border-l border-gray-300/50 flex-col justify-center items-center gap-12">
-          {/* Up Arrow (Thin Outline) */}
-          <button className="text-gray-400 hover:text-gray-600 transition-colors">
-            <svg
-              width="24"
-              height="40"
-              viewBox="0 0 24 40"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12 40V1M12 1L1 12M12 1L23 12"
-                stroke="currentColor"
-                strokeWidth="1"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
+      </div>
 
-          {/* Down Arrow (Gold/Styled) */}
-          <button className="text-[#C19A6B] hover:text-[#a37f55] transition-colors">
-            <svg
-              width="24"
-              height="40"
-              viewBox="0 0 24 40"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12 0V39M12 39L1 28M12 39L23 28"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
+      <div className="hidden md:flex w-24  flex-col justify-center items-center gap-12 relative">
+        {/* middle-only border (custom height + centered) */}
+        <span className="absolute left-0 top-1/2 -translate-y-1/2 h-[285px] w-px bg-[#BE7D60]" />
+
+        {/* Up Arrow (Thin Outline) */}
+        <div>
+          <Image
+            src={upArrow}
+            alt="Up Arrow"
+            width={24}
+            height={40}
+            className="w-[65px] h-[65px]"
+          />
+        </div>
+
+        {/* Down Arrow (Gold/Styled) */}
+        <div>
+          <Image
+            src={downArrow}
+            alt="Down Arrow"
+            width={24}
+            height={40}
+            className="w-[65px] h-[65px]"
+          />
         </div>
       </div>
     </section>
