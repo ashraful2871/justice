@@ -86,13 +86,20 @@ const ArrowRightIcon = () => (
 );
 
 const BackgroundQuoteIcon = () => (
-  <Image
-    src={quote}
-    alt="Background Quote"
-    width={200}
-    height={200}
+  <svg
+    width="200"
+    height="200"
+    viewBox="0 0 168 138"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
     className="absolute bottom-12 right-4 md:right-12 lg:right-24 opacity-5 pointer-events-none select-none"
-  />
+  >
+    <path
+      d="M47.6 137.2H0.400002L32.8 69.2H4V0.399994H72.4V69.2L47.6 137.2ZM142 137.2H94.8L127.2 69.2H98.4V0.399994H166.8V69.2L142 137.2Z"
+      stroke="white"
+      strokeWidth="2"
+    />
+  </svg>
 );
 
 const Testimonials = () => {
@@ -103,7 +110,7 @@ const Testimonials = () => {
     testimonials.find((t) => t.id === activeId) || testimonials[0];
   return (
     <section
-      className={`${playfair.variable} ${inter.variable} relative w-full bg-[#031424] py-20 lg:py-28 overflow-hidden`}
+      className={`${playfair.variable} ${inter.variable} relative w-full bg-[#031424] py-20 lg:py-28 overflow-hidden `}
     >
       {/* Background Decorative Icon */}
       <BackgroundQuoteIcon />
