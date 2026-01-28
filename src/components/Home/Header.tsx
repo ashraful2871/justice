@@ -2,7 +2,8 @@ import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Playfair_Display, Inter } from "next/font/google";
-
+import logo from "@/assets/logo.png";
+import Image from "next/image";
 // Font configuration
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -45,43 +46,15 @@ export default function Header() {
         <div className="container mx-auto  px-4 md:px-8 flex items-center">
           {/* Logo Section - Remains on the Left */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="text-[#C19A6B] w-10 h-10 md:w-12 md:h-12 flex-shrink-0">
-              <svg
-                viewBox="0 0 100 100"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-full h-full"
-              >
-                <path
-                  d="M50 95C50 95 90 75 90 30V10H10V30C10 75 50 95 50 95Z"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  fill="none"
-                />
-                <path
-                  d="M20 35H80"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M50 25V75"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M20 35L15 55H25L20 35Z"
-                  fill="currentColor"
-                  opacity="0.8"
-                />
-                <path
-                  d="M80 35L75 55H85L80 35Z"
-                  fill="currentColor"
-                  opacity="0.8"
-                />
-                <path d="M50 15L45 25H55L50 15Z" fill="currentColor" />
-              </svg>
+            {/* Logo wrapper must be relative when using `fill` */}
+            <div className="relative w-10 h-10 md:w-12 md:h-12 flex-shrink-0">
+              <Image
+                src={logo}
+                alt="JUSTIVO logo"
+                fill
+                className="object-contain group-hover:scale-105 transition-transform duration-300"
+                priority
+              />
             </div>
 
             <span className="text-3xl font-serif text-black tracking-wide uppercase">
