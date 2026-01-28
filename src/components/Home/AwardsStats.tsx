@@ -1,11 +1,12 @@
 import React from "react";
 import Image from "next/image";
-import { Playfair_Display, Inter } from "next/font/google";
+import { Playfair_Display, Inter, Forum } from "next/font/google";
 
 // Font Configuration
-const playfair = Playfair_Display({
-  subsets: ["latin"],
+const forum = Forum({
   variable: "--font-serif",
+  subsets: ["latin"],
+  weight: "400",
 });
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -77,9 +78,7 @@ const statsData = [
 
 export default function AwardsStats() {
   return (
-    <section
-      className={`${playfair.variable} ${inter.variable} w-full bg-white py-20 lg:py-32`}
-    >
+    <section className={`${forum.variable}  w-full bg-white py-20 lg:py-32`}>
       <div className="container mx-auto px-6 md:px-12 border">
         <div className="flex flex-col gap-0">
           {statsData.map((item, index) => (
