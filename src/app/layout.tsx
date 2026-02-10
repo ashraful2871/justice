@@ -23,6 +23,7 @@ export const metadata: Metadata = {
   description: "Professional Legal Consultancy Services",
 };
 //giest sans for body text, geist mono for code snippets, forum for headings and titles
+//we can use the font variables in our css to apply the fonts to specific elements
 export default function RootLayout({
   children,
 }: Readonly<{
