@@ -23,7 +23,6 @@ export const metadata: Metadata = {
   description: "Professional Legal Consultancy Services",
 };
 
-//
 export default function RootLayout({
   children,
 }: Readonly<{
