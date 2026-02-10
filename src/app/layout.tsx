@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   title: "JUSTIVO",
   description: "Professional Legal Consultancy Services",
 };
-
+//
 export default function RootLayout({
   children,
 }: Readonly<{
