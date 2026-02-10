@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   description: "Professional Legal Consultancy Services",
 };
 
-// eslint-disable-next-line react/prop-types
+//
 export default function RootLayout({
   children,
 }: Readonly<{
