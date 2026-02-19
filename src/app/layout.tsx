@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   title: "JUSTIVO",
   description: "Professional Legal Consultancy Services",
 };
-//
+//giest sans for body text, geist mono for code snippets, forum for headings and titles
 export default function RootLayout({
   children,
 }: Readonly<{
