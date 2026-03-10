@@ -1,0 +1,1070 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zara Home Style Fullscreen Swiper</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+
+    <style>
+      :root {
+        --bg: #ffffff;
+        --text: #1e1e1e;
+        --muted: #8e8e93;
+        --border: #d1d1d6;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      html {
+        font-size: 62.5%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      body {
+        height: 100%;
+        overflow: hidden;
+        background: var(--bg);
+        color: var(--text);
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 1.4rem;
+        letter-spacing: 0.02rem;
+        line-height: 1.8rem;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .home-main-slider {
+        position: relative;
+        width: 100%;
+        height: 100dvh;
+        background: #fff;
+      }
+
+      swiper-container {
+        width: 100%;
+        height: 100dvh;
+        --swiper-theme-color: #1e1e1e;
+        --swiper-navigation-size: 24px;
+        background: #fff;
+      }
+
+      swiper-slide {
+        background: #fff;
+        overflow: hidden;
+      }
+
+      .home-slide,
+      .footer-slide {
+        position: relative;
+        width: 100%;
+        height: 100dvh;
+        background: #fff;
+      }
+
+      .slide-link {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: #fff;
+        overflow: hidden;
+      }
+
+      .media,
+      .media picture,
+      .media img,
+      .media video {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      .media img,
+      .media video {
+        object-fit: cover;
+        object-position: center;
+        transform: scale(1.01);
+        transition: transform 1.8s ease;
+      }
+
+      swiper-slide.swiper-slide-active .media img,
+      swiper-slide.swiper-slide-active .media video {
+        transform: scale(1.04);
+      }
+
+      .slide-link::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.18),
+          rgba(0, 0, 0, 0.04) 22%,
+          rgba(0, 0, 0, 0) 46%
+        );
+        pointer-events: none;
+      }
+
+      .slide-overlay-image {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        pointer-events: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6rem 2rem;
+      }
+
+      .slide-overlay-image img {
+        width: auto;
+        max-width: min(90vw, 700px);
+        height: auto;
+        max-height: 38vh;
+        object-fit: contain;
+        filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.15));
+      }
+
+      .slide-meta {
+        position: absolute;
+        left: 2.4rem;
+        right: 2.4rem;
+        bottom: 2.4rem;
+        z-index: 3;
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 1.6rem;
+        color: #fff;
+        text-transform: uppercase;
+        font-size: 1.1rem;
+        letter-spacing: 0.12rem;
+      }
+
+      .slide-title {
+        font-size: 1.1rem;
+        line-height: 1.5rem;
+        font-weight: 400;
+        max-width: 24rem;
+      }
+
+      .slide-index {
+        font-size: 1rem;
+        opacity: 0.95;
+        white-space: nowrap;
+      }
+
+      .progress-wrap {
+        position: absolute;
+        left: 2.4rem;
+        right: 2.4rem;
+        top: 2rem;
+        z-index: 10;
+        pointer-events: none;
+      }
+
+      .progress-bar {
+        width: 100%;
+        height: 0.2rem;
+        background: rgba(255, 255, 255, 0.35);
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        width: 0%;
+        height: 100%;
+        background: #fff;
+        transition: width 0.2s linear;
+      }
+
+      .nav-shell {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 8;
+      }
+
+      .nav-btn {
+        pointer-events: auto;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 4.4rem;
+        height: 4.4rem;
+        border: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.72);
+        color: #111;
+        backdrop-filter: blur(8px);
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+        transition:
+          opacity 0.3s ease,
+          background 0.3s ease;
+        opacity: 0;
+      }
+
+      .home-main-slider:hover .nav-btn {
+        opacity: 1;
+      }
+
+      .nav-btn:hover {
+        background: rgba(255, 255, 255, 0.92);
+      }
+
+      .nav-prev {
+        left: 1.6rem;
+      }
+
+      .nav-next {
+        right: 1.6rem;
+      }
+
+      .nav-btn svg {
+        width: 1.8rem;
+        height: 1.8rem;
+      }
+
+      .bottom-category-nav {
+        position: absolute;
+        left: 50%;
+        bottom: 6.2rem;
+        transform: translateX(-50%);
+        z-index: 9;
+        width: min(112rem, calc(100% - 6rem));
+        display: flex;
+        justify-content: center;
+        pointer-events: none;
+      }
+
+      .bottom-category-nav__inner {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem 2.8rem;
+        text-align: center;
+        pointer-events: auto;
+      }
+
+      .bottom-nav-btn {
+        appearance: none;
+        background: transparent;
+        border: 0;
+        color: rgba(255, 255, 255, 0.92);
+        cursor: pointer;
+        text-transform: uppercase;
+        font-size: 1.1rem;
+        line-height: 1.5rem;
+        letter-spacing: 0.02rem;
+        white-space: nowrap;
+        transition:
+          opacity 0.25s ease,
+          transform 0.25s ease;
+        opacity: 0.9;
+      }
+
+      .bottom-nav-btn:hover,
+      .bottom-nav-btn.is-active {
+        opacity: 1;
+      }
+
+      .bottom-nav-btn.is-active {
+        transform: translateY(-0.1rem);
+        text-decoration: underline;
+        text-underline-offset: 0.35rem;
+      }
+
+      .footer-slide {
+        overflow-y: auto;
+        background: #fff;
+        color: #1e1e1e;
+      }
+
+      .footer-inner {
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 2.4rem 2rem 2rem;
+      }
+
+      .newsletter {
+        padding-top: 4rem;
+        max-width: 56rem;
+        width: 100%;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .newsletter h2 {
+        font-size: 1.6rem;
+        line-height: 2.2rem;
+        font-weight: 400;
+        margin-bottom: 2rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08rem;
+      }
+
+      .newsletter-form {
+        display: flex;
+        border-bottom: 0.1rem solid var(--text);
+        align-items: center;
+        gap: 1rem;
+        padding-bottom: 1rem;
+      }
+
+      .newsletter-form input {
+        flex: 1;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        font-size: 1.4rem;
+        padding: 0.8rem 0;
+      }
+
+      .newsletter-form button {
+        border: 0;
+        background: transparent;
+        font-size: 1.1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1rem;
+        cursor: pointer;
+      }
+
+      .social-row {
+        margin: 6rem auto 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.2rem;
+        text-align: center;
+      }
+
+      .social-row h3,
+      .footer-column h3,
+      .country h3 {
+        font-size: 1.2rem;
+        line-height: 1.8rem;
+        text-transform: uppercase;
+        text-decoration: underline;
+        letter-spacing: 0.08rem;
+        margin-bottom: 0.8rem;
+      }
+
+      .social-icons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.2rem;
+        list-style: none;
+      }
+
+      .social-icons a {
+        font-size: 1.2rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08rem;
+      }
+
+      .footer-links {
+        width: 100%;
+        max-width: 90rem;
+        margin: 6rem auto 0;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 3rem;
+        text-align: center;
+      }
+
+      .footer-column a,
+      .footer-column button,
+      .featured-links a {
+        display: block;
+        color: #2c2c2e;
+        margin-bottom: 0.8rem;
+        font-size: 1.1rem;
+        line-height: 1.6rem;
+        text-transform: uppercase;
+        background: none;
+        border: 0;
+        cursor: pointer;
+      }
+
+      .featured-links {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+
+      .footer-bottom {
+        margin-top: 5rem;
+        padding-top: 2rem;
+        border-top: 0.1rem solid var(--border);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 1.6rem;
+      }
+
+      .country a {
+        font-size: 1.2rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08rem;
+      }
+
+      .legal {
+        color: var(--muted);
+        font-size: 1.1rem;
+      }
+
+      @media (max-width: 767px) {
+        .slide-meta {
+          left: 1.6rem;
+          right: 1.6rem;
+          bottom: 1.8rem;
+        }
+
+        .bottom-category-nav {
+          width: calc(100% - 3rem);
+          bottom: 5rem;
+        }
+
+        .bottom-category-nav__inner {
+          gap: 0.8rem 1.6rem;
+        }
+
+        .bottom-nav-btn {
+          font-size: 0.95rem;
+          line-height: 1.3rem;
+        }
+
+        .footer-links {
+          grid-template-columns: 1fr;
+          gap: 2.2rem;
+          margin-top: 4rem;
+        }
+
+        .nav-btn {
+          display: none;
+        }
+
+        .newsletter {
+          padding-top: 2.4rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="home-main-slider">
+      <div class="progress-wrap">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+
+      <div class="nav-shell">
+        <button
+          class="nav-btn nav-prev"
+          id="prevBtn"
+          aria-label="Previous slide"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+        </button>
+        <button class="nav-btn nav-next" id="nextBtn" aria-label="Next slide">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M9 18l6-6-6-6" />
+          </svg>
+        </button>
+      </div>
+
+      <nav class="bottom-category-nav" aria-label="Slide navigation categories">
+        <div class="bottom-category-nav__inner">
+          <button class="bottom-nav-btn is-active" data-slide="0">
+            Mother's Day
+          </button>
+          <button class="bottom-nav-btn" data-slide="1">
+            Culinary Stories
+          </button>
+          <button class="bottom-nav-btn" data-slide="2">New In</button>
+          <button class="bottom-nav-btn" data-slide="3">Metal Trend</button>
+          <button class="bottom-nav-btn" data-slide="4">Gym Collection</button>
+          <button class="bottom-nav-btn" data-slide="5">My Little Pony©</button>
+          <button class="bottom-nav-btn" data-slide="6">
+            Easter Collection
+          </button>
+          <button class="bottom-nav-btn" data-slide="7">
+            Vincent Van Duysen
+          </button>
+          <button class="bottom-nav-btn" data-slide="8">
+            Zara Home Business
+          </button>
+        </div>
+      </nav>
+
+      <swiper-container
+        id="heroSlider"
+        direction="vertical"
+        speed="900"
+        mousewheel="true"
+        keyboard="true"
+        grab-cursor="true"
+        resistance-ratio="0"
+        allow-touch-move="true"
+        slides-per-view="1"
+        autoplay-delay="6000"
+        autoplay-disable-on-interaction="false"
+        autoplay-pause-on-mouse-enter="false"
+        init="false"
+      >
+        <swiper-slide id="mothers-day">
+          <div class="home-slide">
+            <a
+              class="slide-link"
+              href="javascript:void(0)"
+              aria-label="Navigate to category MOTHER'S DAY"
+            >
+              <div class="media">
+                <picture>
+                  <source
+                    media="(orientation: landscape)"
+                    srcset="
+                      https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=1600&q=80
+                    "
+                  />
+                  <source
+                    media="(orientation: portrait)"
+                    srcset="
+                      https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=1000&q=80
+                    "
+                  />
+                  <img
+                    src="https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=1600&q=80"
+                    alt="Editorial home decor scene"
+                  />
+                </picture>
+              </div>
+              <div class="slide-meta">
+                <div class="slide-title">Mother's Day</div>
+                <div class="slide-index">01 / 09</div>
+              </div>
+            </a>
+          </div>
+        </swiper-slide>
+
+        <swiper-slide id="culinary-stories" data-swiper-autoplay="6000">
+          <div class="home-slide">
+            <a
+              class="slide-link"
+              href="javascript:void(0)"
+              aria-label="Navigate to category CULINARY STORIES"
+            >
+              <div class="slide-overlay-image">
+                <img
+                  src="https://dummyimage.com/1100x320/365043/ffffff&text=CULINARY+STORIES+%E2%80%94+MATTER+AND+SHAPE"
+                  alt="Culinary Stories overlay text"
+                />
+              </div>
+              <div class="media">
+                <video
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  preload="auto"
+                  poster="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1600&q=80"
+                >
+                  <source
+                    src="https://cdn.coverr.co/videos/coverr-man-preparing-breakfast-1560677635951?download=1080p"
+                    type="video/mp4"
+                  />
+                </video>
+              </div>
+              <div class="slide-meta">
+                <div class="slide-title">Culinary Stories</div>
+                <div class="slide-index">02 / 09</div>
+              </div>
+            </a>
+          </div>
+        </swiper-slide>
+
+        <swiper-slide id="new-in">
+          <div class="home-slide">
+            <a
+              class="slide-link"
+              href="javascript:void(0)"
+              aria-label="Navigate to category NEW IN"
+            >
+              <div class="media">
+                <picture>
+                  <source
+                    media="(orientation: landscape)"
+                    srcset="
+                      https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1600&q=80
+                    "
+                  />
+                  <source
+                    media="(orientation: portrait)"
+                    srcset="
+                      https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1000&q=80
+                    "
+                  />
+                  <img
+                    src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1600&q=80"
+                    alt="New in home collection"
+                  />
+                </picture>
+              </div>
+              <div class="slide-meta">
+                <div class="slide-title">New In</div>
+                <div class="slide-index">03 / 09</div>
+              </div>
+            </a>
+          </div>
+        </swiper-slide>
+
+        <swiper-slide id="metal-trend">
+          <div class="home-slide">
+            <a
+              class="slide-link"
+              href="javascript:void(0)"
+              aria-label="Navigate to category METAL TREND"
+            >
+              <div class="media">
+                <picture>
+                  <source
+                    media="(orientation: landscape)"
+                    srcset="
+                      https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1600&q=80
+                    "
+                  />
+                  <source
+                    media="(orientation: portrait)"
+                    srcset="
+                      https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1000&q=80
+                    "
+                  />
+                  <img
+                    src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1600&q=80"
+                    alt="Modern chair and metallic decor"
+                  />
+                </picture>
+              </div>
+              <div class="slide-meta">
+                <div class="slide-title">Metal Trend</div>
+                <div class="slide-index">04 / 09</div>
+              </div>
+            </a>
+          </div>
+        </swiper-slide>
+
+        <swiper-slide id="gym-collection" data-swiper-autoplay="6000">
+          <div class="home-slide">
+            <a
+              class="slide-link"
+              href="javascript:void(0)"
+              aria-label="Navigate to category GYM COLLECTION"
+            >
+              <div class="media">
+                <video
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  preload="auto"
+                  poster="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1600&q=80"
+                >
+                  <source
+                    src="https://cdn.coverr.co/videos/coverr-woman-stretching-in-the-gym-1579516927952?download=1080p"
+                    type="video/mp4"
+                  />
+                </video>
+              </div>
+              <div class="slide-meta">
+                <div class="slide-title">Gym Collection</div>
+                <div class="slide-index">05 / 09</div>
+              </div>
+            </a>
+          </div>
+        </swiper-slide>
+
+        <swiper-slide id="kids">
+          <div class="home-slide">
+            <a
+              class="slide-link"
+              href="javascript:void(0)"
+              aria-label="Navigate to category MY LITTLE PONY"
+            >
+              <div class="media">
+                <picture>
+                  <source
+                    media="(orientation: landscape)"
+                    srcset="
+                      https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1600&q=80
+                    "
+                  />
+                  <source
+                    media="(orientation: portrait)"
+                    srcset="
+                      https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1000&q=80
+                    "
+                  />
+                  <img
+                    src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1600&q=80"
+                    alt="Kids bedroom collection"
+                  />
+                </picture>
+              </div>
+              <div class="slide-meta">
+                <div class="slide-title">Kids Collection</div>
+                <div class="slide-index">06 / 09</div>
+              </div>
+            </a>
+          </div>
+        </swiper-slide>
+
+        <swiper-slide id="easter">
+          <div class="home-slide">
+            <a
+              class="slide-link"
+              href="javascript:void(0)"
+              aria-label="Navigate to category EASTER COLLECTION"
+            >
+              <div class="media">
+                <picture>
+                  <source
+                    media="(orientation: landscape)"
+                    srcset="
+                      https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=80
+                    "
+                  />
+                  <source
+                    media="(orientation: portrait)"
+                    srcset="
+                      https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1000&q=80
+                    "
+                  />
+                  <img
+                    src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=80"
+                    alt="Table styling collection"
+                  />
+                </picture>
+              </div>
+              <div class="slide-meta">
+                <div class="slide-title">Easter Collection</div>
+                <div class="slide-index">07 / 09</div>
+              </div>
+            </a>
+          </div>
+        </swiper-slide>
+
+        <swiper-slide id="vincent">
+          <div class="home-slide">
+            <a
+              class="slide-link"
+              href="javascript:void(0)"
+              aria-label="Navigate to category VINCENT VAN DUYSEN"
+            >
+              <div class="media">
+                <picture>
+                  <source
+                    media="(orientation: landscape)"
+                    srcset="
+                      https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1600&q=80
+                    "
+                  />
+                  <source
+                    media="(orientation: portrait)"
+                    srcset="
+                      https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1000&q=80
+                    "
+                  />
+                  <img
+                    src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1600&q=80"
+                    alt="Designer living room"
+                  />
+                </picture>
+              </div>
+              <div class="slide-meta">
+                <div class="slide-title">Vincent Van Duysen</div>
+                <div class="slide-index">08 / 09</div>
+              </div>
+            </a>
+          </div>
+        </swiper-slide>
+
+        <swiper-slide id="business">
+          <div class="home-slide">
+            <a
+              class="slide-link"
+              href="javascript:void(0)"
+              aria-label="Navigate to category ZARA HOME BUSINESS"
+            >
+              <div class="media">
+                <picture>
+                  <source
+                    media="(orientation: landscape)"
+                    srcset="
+                      https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1600&q=80
+                    "
+                  />
+                  <source
+                    media="(orientation: portrait)"
+                    srcset="
+                      https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1000&q=80
+                    "
+                  />
+                  <img
+                    src="https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1600&q=80"
+                    alt="Business interior project"
+                  />
+                </picture>
+              </div>
+              <div class="slide-meta">
+                <div class="slide-title">Zara Home Business</div>
+                <div class="slide-index">09 / 09</div>
+              </div>
+            </a>
+          </div>
+        </swiper-slide>
+
+        <swiper-slide id="footer-slide">
+          <div class="footer-slide">
+            <div class="footer-inner">
+              <section class="newsletter">
+                <h2>Join our newsletter — enter your email address</h2>
+                <form class="newsletter-form">
+                  <input
+                    type="email"
+                    placeholder="Enter your email address"
+                    aria-label="Email address"
+                  />
+                  <button type="submit">Join</button>
+                </form>
+              </section>
+
+              <section class="social-row">
+                <h3>Follow us on</h3>
+                <ul class="social-icons">
+                  <li><a href="#">Facebook</a></li>
+                  <li><a href="#">Instagram</a></li>
+                  <li><a href="#">Pinterest</a></li>
+                  <li><a href="#">YouTube</a></li>
+                  <li><a href="#">Twitter</a></li>
+                  <li><a href="#">Spotify</a></li>
+                  <li><a href="#">TikTok</a></li>
+                </ul>
+              </section>
+
+              <section class="footer-links">
+                <div class="footer-column">
+                  <h3>Policies</h3>
+                  <a href="#">Terms and Conditions</a>
+                  <a href="#">Privacy Policy</a>
+                  <a href="#">Cookies Policy</a>
+                  <button type="button">Cookies Settings</button>
+                </div>
+
+                <div class="footer-column">
+                  <h3>Company</h3>
+                  <a href="#">Work With Us</a>
+                  <a href="#">Press</a>
+                  <a href="#">Modern Slavery Statement FY2024</a>
+                  <a href="#">Sitemap</a>
+                </div>
+
+                <div class="footer-column">
+                  <h3>Contact Us</h3>
+                  <a href="#">Contact Us</a>
+                  <a href="#">Help</a>
+                  <a href="#">Guest Purchase</a>
+                  <a href="#">Stores</a>
+                  <a href="tel:08000260091">0800 026 0091</a>
+                </div>
+              </section>
+
+              <section class="social-row" style="margin-top: 4rem">
+                <h3>You might be interested</h3>
+                <div class="featured-links">
+                  <a href="#">Bedroom</a>
+                  <a href="#">Duvet Covers</a>
+                  <a href="#">Home Decor</a>
+                  <a href="#">Tableware</a>
+                  <a href="#">Bedside Tables</a>
+                  <a href="#">Furniture</a>
+                  <a href="#">Lamps and Lighting</a>
+                </div>
+              </section>
+
+              <div class="footer-bottom">
+                <div class="country">
+                  <h3>Language</h3>
+                  <a href="#">United Kingdom / English</a>
+                </div>
+                <div class="legal">
+                  Editorial replica built with raw HTML, CSS and JS.
+                </div>
+              </div>
+            </div>
+          </div>
+        </swiper-slide>
+      </swiper-container>
+    </main>
+
+    <script>
+      const slider = document.getElementById("heroSlider");
+      const progressFill = document.getElementById("progressFill");
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+      const bottomNavButtons = document.querySelectorAll(".bottom-nav-btn");
+      const bottomCategoryNav = document.querySelector(".bottom-category-nav");
+
+      let progressInterval;
+      let progressStart = 0;
+      let currentDelay = 6000;
+
+      slider.initialize();
+
+      function startProgress(delay = 6000) {
+        clearInterval(progressInterval);
+        currentDelay = delay;
+        progressStart = performance.now();
+        progressFill.style.width = "0%";
+
+        progressInterval = setInterval(() => {
+          const elapsed = performance.now() - progressStart;
+          const pct = Math.min((elapsed / currentDelay) * 100, 100);
+          progressFill.style.width = pct + "%";
+        }, 16);
+      }
+
+      function stopProgress() {
+        clearInterval(progressInterval);
+      }
+
+      function setActiveButton(index) {
+        bottomNavButtons.forEach((btn) => {
+          btn.classList.remove("is-active");
+        });
+
+        const activeBtn = document.querySelector(
+          `.bottom-nav-btn[data-slide="${index}"]`,
+        );
+        if (activeBtn) {
+          activeBtn.classList.add("is-active");
+        }
+      }
+
+      function toggleBottomNav(index) {
+        if (index === 9) {
+          bottomCategoryNav.style.display = "none";
+        } else {
+          bottomCategoryNav.style.display = "flex";
+        }
+      }
+
+      function updateUI(index) {
+        setActiveButton(index);
+        toggleBottomNav(index);
+      }
+
+      function bindSliderNavigation() {
+        const swiper = slider.swiper;
+
+        updateUI(swiper.activeIndex);
+        startProgress(6000);
+
+        prevBtn.addEventListener("click", () => {
+          swiper.slidePrev();
+        });
+
+        nextBtn.addEventListener("click", () => {
+          swiper.slideNext();
+        });
+
+        bottomNavButtons.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const slideIndex = parseInt(btn.dataset.slide, 10);
+            swiper.slideTo(slideIndex);
+            updateUI(slideIndex);
+          });
+        });
+
+        slider.addEventListener("swiperslidechange", () => {
+          const activeIndex = swiper.activeIndex;
+          const activeSlide = swiper.slides[activeIndex];
+          const customDelay =
+            Number(activeSlide?.getAttribute("data-swiper-autoplay")) || 6000;
+
+          updateUI(activeIndex);
+          startProgress(customDelay);
+        });
+
+        slider.addEventListener("mouseenter", stopProgress);
+        slider.addEventListener("mouseleave", () =>
+          startProgress(currentDelay),
+        );
+
+        const hash = window.location.hash.replace("#", "");
+        if (hash) {
+          const slideMap = {
+            "mothers-day": 0,
+            "culinary-stories": 1,
+            "new-in": 2,
+            "metal-trend": 3,
+            "gym-collection": 4,
+            kids: 5,
+            easter: 6,
+            vincent: 7,
+            business: 8,
+          };
+
+          if (slideMap[hash] !== undefined) {
+            swiper.slideTo(slideMap[hash], 0);
+            updateUI(slideMap[hash]);
+          }
+        }
+      }
+
+      if (slider.swiper) {
+        bindSliderNavigation();
+      } else {
+        slider.addEventListener("ready", bindSliderNavigation, { once: true });
+      }
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) stopProgress();
+        else startProgress(currentDelay);
+      });
+
+      document
+        .querySelector(".newsletter-form")
+        ?.addEventListener("submit", (e) => {
+          e.preventDefault();
+          alert("Newsletter form demo only.");
+        });
+    </script>
+  </body>
+</html>
